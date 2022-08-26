@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            Int    @id @default(autoincrement())
+  email         String          @unique
+  password      String
+  created_at    DateTime        @default(now())
+
+  Professional  Professional?
+  @@map("users")
+}
+
+model Professional {
+  id          Int       @id @default(autoincrement())
+  name        String
+  crp         String    @unique
+  cellphone   String?
+  approach    String
+  created_at  DateTime  @default(now())
+  userId      Int       @unique
+
+  User        User      @relation(fields: [userId], references: [id])
+  @@index([userId], name: "user")
+
+  Session Session[]
+
+  @@map("professionals")
+}
+
+model Patient {
+  id          Int       @id @default(autoincrement())
+  name        String
+  cpf         String    @unique
+  email       String    @unique
+  gender      String
+  cellphone   String?
+  birth_date  DateTime
+  created_at  DateTime  @default(now())
+
+  Session Session[]
+  PatientsSession PatientsSession[]
+
+  @@map("patients")
+}
+
+model Session {
+  id              Int       @id @default(autoincrement())
+  subject         String
+  type            String
+  status          String
+  schedule_type   String
+  duration        Int
+  session_date    DateTime
+  created_at      DateTime  @default(now())
+  professionalId  Int
+  patientId       Int
+
+  Professional  Professional  @relation(fields: [professionalId], references: [id])
+  @@index([professionalId], name: "professional")
+
+  Patient       Patient       @relation(fields: [patientId], references: [id])
+  @@index([patientId], name: "patient")
+
+  PatientsSession PatientsSession[]
+
+  @@map("sessions")
+}
+
+model PatientsSession {
+  id         Int       @id @default(autoincrement())
+  sessionId  Int
+  patientId  Int
+
+  Session  Session  @relation(fields: [sessionId], references: [id])
+  @@index([sessionId], name: "session")
+
+  Patient       Patient       @relation(fields: [patientId], references: [id])
+  @@index([patientId], name: "patient")
+
+  @@map("patients_session")
+}

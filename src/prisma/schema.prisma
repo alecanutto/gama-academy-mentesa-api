@@ -12,9 +12,10 @@ generator client {
 
 model User {
   id            Int       @id @default(autoincrement())
-  email         String    @db.VarChar(60)  @unique
-  password      String    @db.VarChar(20)
-  created_at    DateTime  @default(now())
+  email         String    @db.VarChar(60)   @unique
+  password      String
+  createdAt     DateTime  @default(now())   @map("created_at")
+  updatedAt     DateTime  @updatedAt        @map("updated_at")
 
   Professional  Professional?
 
@@ -24,18 +25,19 @@ model User {
 model Professional {
   id          Int       @id @default(autoincrement())
   name        String    @db.VarChar(150)
-  crp         String    @db.VarChar(20)     @unique
+  crp         String?   @db.VarChar(20)     @unique
   cellphone   String?   @db.VarChar(14)
-  approach    String    @db.VarChar(30)
-  created_at  DateTime  @default(now())
-  userId      Int       @unique
+  approach    String?   @db.VarChar(30)
+  createdAt   DateTime  @default(now())     @map("created_at")
+  updatedAt   DateTime  @updatedAt          @map("updated_at")
+  userId      Int       @unique             @map("user_id")
 
   User        User      @relation(fields: [userId], references: [id])
   @@index([userId], name: "user")
 
-  Patient  Patient?
+  Patient     Patient?
 
-  Session Session[]
+  Session     Session[]
 
   @@map("professionals")
 }
@@ -47,11 +49,12 @@ model Patient {
   email           String    @db.VarChar(60)   @unique
   gender          String    @db.VarChar(15)
   cellphone       String?   @db.VarChar(14)
-  birth_date      DateTime
-  created_at      DateTime  @default(now())
-  professionalId  Int       @unique
+  birthDate       DateTime  @map("birth_date")
+  createdAt       DateTime  @default(now())   @map("created_at")
+  updatedAt       DateTime  @updatedAt        @map("updated_at")
+  professionalId  Int       @unique           @map("professional_id")
 
-  PatientsSession PatientsSession[]
+  PatientsSession     PatientsSession[]
 
   Professional        Professional      @relation(fields: [professionalId], references: [id])
   @@index([professionalId], name: "professional")
@@ -64,11 +67,12 @@ model Session {
   subject         String    @db.VarChar(150)
   type            String    @db.VarChar(30)
   status          String    @db.VarChar(20)
-  schedule_type   String    @db.VarChar(150)
+  scheduleType    String    @db.VarChar(150)          @map("schedule_type")
   duration        Int
-  session_date    DateTime
-  created_at      DateTime  @default(now())
-  professionalId  Int
+  sessionDate     DateTime  @map("session_date")
+  createdAt       DateTime  @default(now())           @map("created_at")
+  updatedAt       DateTime  @updatedAt                @map("updated_at")
+  professionalId  Int       @map("professional_id")
 
   Professional  Professional  @relation(fields: [professionalId], references: [id])
   @@index([professionalId], name: "professional")
@@ -79,9 +83,9 @@ model Session {
 }
 
 model PatientsSession {
-  id         Int       @id @default(autoincrement())
-  sessionId  Int
-  patientId  Int
+  id          Int   @id @default(autoincrement())
+  sessionId   Int   @map("session_id")
+  patientId   Int   @map("patient_id")
 
   Session  Session  @relation(fields: [sessionId], references: [id])
   @@index([sessionId], name: "session")

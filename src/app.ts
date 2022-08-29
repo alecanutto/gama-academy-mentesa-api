@@ -62,9 +62,9 @@ class App {
     const options = {
       swaggerDefinition: {
         info: {
-          title: 'REST API',
+          title: 'MENTE SÃ API',
           version: '1.0.0',
-          description: 'Example docs',
+          description: 'Simple application with TypeScript + Prisma + MySQL + Express API Server',
         },
       },
       apis: ['swagger.yaml'],

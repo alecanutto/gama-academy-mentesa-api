@@ -20,3 +20,7 @@ Projeto fictício utilizado como forma de avaliação individual.
 * /users/:id
 
 
+<br />
+
+<strong> Gerenciamento das tarefas: </strong>
+https://www.notion.so/alecanutto/e17630914081495eb5548156a147a84d?v=8b5d7154bb82478db64e65b88fd42c9d

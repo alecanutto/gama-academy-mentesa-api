@@ -1,24 +1,28 @@
 import { Router } from 'express';
-import AuthController from '@controllers/auth.controller';
-import { CreateUserDto } from '@dtos/users.dto';
 import { Routes } from '@interfaces/routes.interface';
-import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
+import ProfessionalsController from '@/controllers/professionals.controller';
+import { UpdateProfessionalDto } from '@/dtos/professionals.dto';
 
-class AuthRoute implements Routes {
-  public path = '/professionals/';
+class ProfessionalRoute implements Routes {
+  public path = '/professionals';
   public router = Router();
-  public authController = new AuthController();
+  public professionalsController = new ProfessionalsController();
 
   constructor() {
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
-    this.router.post(`${this.path}signup`, validationMiddleware(CreateUserDto, 'body'), this.authController.signUp);
-    this.router.post(`${this.path}login`, validationMiddleware(CreateUserDto, 'body'), this.authController.logIn);
-    this.router.post(`${this.path}logout`, authMiddleware, this.authController.logOut);
+    this.router.get(`${this.path}`, this.professionalsController.getProfessionals);
+    this.router.get(`${this.path}/:id(\\d+)`, this.professionalsController.getProfessionalById);
+    this.router.put(
+      `${this.path}/:id(\\d+)`,
+      validationMiddleware(UpdateProfessionalDto, 'body', true),
+      this.professionalsController.updateProfessional,
+    );
+    this.router.delete(`${this.path}/:id(\\d+)`, this.professionalsController.deleteProfessional);
   }
 }
 
-export default AuthRoute;
+export default ProfessionalRoute;

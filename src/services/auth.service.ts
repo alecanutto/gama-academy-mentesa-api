@@ -17,7 +17,9 @@ class AuthService {
     if (findUser) throw new HttpException(409, `This email ${userData.email} already exists`);
 
     const hashedPassword = await hash(userData.password, 10);
-    const createUserData: Promise<User> = this.users.create({ data: { email: userData.email, password: hashedPassword } });
+    const createUserData: Promise<User> = this.users.create({
+      data: { email: userData.email, password: hashedPassword },
+    });
 
     return createUserData;
   }
@@ -40,7 +42,9 @@ class AuthService {
   public async logout(userData: User): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
-    const findUser: User = await this.users.findFirst({ where: { email: userData.email, password: userData.password } });
+    const findUser: User = await this.users.findFirst({
+      where: { email: userData.email, password: userData.password },
+    });
     if (!findUser) throw new HttpException(409, "User doesn't exist");
 
     return findUser;

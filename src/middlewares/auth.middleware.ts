@@ -7,11 +7,13 @@ import { DataStoredInToken, RequestWithUser } from '@interfaces/auth.interface';
 
 const authMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const Authorization = req.cookies['Authorization'] || (req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null);
+    const Authorization =
+      req.cookies['Authorization'] ||
+      (req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null);
 
     if (Authorization) {
       const secretKey: string = SECRET_KEY;
-      const verificationResponse = (await verify(Authorization, secretKey)) as DataStoredInToken;
+      const verificationResponse = verify(Authorization, secretKey) as DataStoredInToken;
       const userId = verificationResponse.id;
 
       const users = new PrismaClient().user;

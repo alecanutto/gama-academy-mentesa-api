@@ -46,9 +46,9 @@ model Patient {
   id              Int       @id @default(autoincrement())
   name            String    @db.VarChar(150)
   cpf             String    @db.VarChar(14)   @unique
-  email           String    @db.VarChar(60)   @unique
+  email           String?   @db.VarChar(60)   @unique
   gender          String    @db.VarChar(15)
-  cellphone       String?   @db.VarChar(14)
+  cellphone       String?   @db.VarChar(15)
   birthDate       DateTime  @map("birth_date")
   createdAt       DateTime  @default(now())   @map("created_at")
   updatedAt       DateTime  @updatedAt        @map("updated_at")
@@ -67,7 +67,7 @@ model Session {
   subject         String    @db.VarChar(150)
   type            String    @db.VarChar(30)
   status          String    @db.VarChar(20)
-  scheduleType    String    @db.VarChar(150)          @map("schedule_type")
+  scheduleType    String    @db.VarChar(30)           @map("schedule_type")
   duration        Int
   sessionDate     DateTime  @map("session_date")
   createdAt       DateTime  @default(now())           @map("created_at")

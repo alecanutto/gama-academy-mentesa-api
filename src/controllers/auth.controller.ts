@@ -3,7 +3,7 @@ import { Professional, User } from '@prisma/client';
 import { CreateUserDto } from '@dtos/users.dto';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import AuthService from '@services/auth.service';
-import ProfessionalService from '@/services/professional.service';
+import ProfessionalService from '@/services/professionals.service';
 import { CreateProfessionalDto } from '@/dtos/professionals.dto';
 
 class AuthController {
@@ -22,7 +22,9 @@ class AuthController {
 
       const createProfessionalData: Professional = await this.professionalService.create(ProfessionalData);
 
-      res.status(201).json({ data: { user: { signUpUserData }, professional: { createProfessionalData } }, message: 'signup' });
+      res
+        .status(201)
+        .json({ data: { user: { signUpUserData }, professional: { createProfessionalData } }, message: 'signup' });
     } catch (error) {
       next(error);
     }

@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/acanuto/Development/mentesa-api/src/utils/debug/.4c9e0ea172d975edb7c0aeb22e6d940cda9683e3-audit.json",
+    "files": [
+        {
+            "date": 1662763037075,
+            "name": "/home/acanuto/Development/mentesa-api/src/utils/debug/2022-09-09.log",
+            "hash": "571f48368cfb859b9eb33ec65ec1a30df749fabb5c0d4e17f194e3a5b0ef4060"
+        }
+    ],
+    "hashType": "sha256"
+}

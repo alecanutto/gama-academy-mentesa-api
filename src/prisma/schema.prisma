@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("MYSQL_DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @db.VarChar(60)   @unique
+  password      String
+  createdAt     DateTime  @default(now())   @map("created_at")
+  updatedAt     DateTime  @updatedAt        @map("updated_at")
+
+  Professional  Professional?
+
+  @@map("users")
+}
+
+model Professional {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(150)
+  crp         String?   @db.VarChar(20)     @unique
+  cellphone   String?   @db.VarChar(14)
+  approach    String?   @db.VarChar(30)
+  createdAt   DateTime  @default(now())     @map("created_at")
+  updatedAt   DateTime  @updatedAt          @map("updated_at")
+  userId      Int       @unique             @map("user_id")
+
+  User        User      @relation(fields: [userId], references: [id])
+  @@index([userId], name: "user")
+
+  Patient     Patient?
+
+  Session     Session[]
+
+  @@map("professionals")
+}
+
+model Patient {
+  id              Int       @id @default(autoincrement())
+  name            String    @db.VarChar(150)
+  cpf             String    @db.VarChar(14)   @unique
+  email           String?   @db.VarChar(60)   @unique
+  gender          String    @db.VarChar(15)
+  cellphone       String?   @db.VarChar(15)
+  birthDate       DateTime  @db.Date          @map("birth_date")
+  createdAt       DateTime  @default(now())   @map("created_at")
+  updatedAt       DateTime  @updatedAt        @map("updated_at")
+  professionalId  Int       @unique           @map("professional_id")
+
+  PatientsSession     PatientsSession[]
+
+  Professional        Professional      @relation(fields: [professionalId], references: [id])
+  @@index([professionalId], name: "professional")
+
+  @@map("patients")
+}
+
+model Session {
+  id              Int       @id @default(autoincrement())
+  subject         String    @db.VarChar(150)
+  type            String    @db.VarChar(30)
+  status          String    @db.VarChar(20)
+  scheduleType    String    @db.VarChar(30)           @map("schedule_type")
+  duration        Int
+  sessionDate     DateTime  @db.Date                  @map("session_date")
+  createdAt       DateTime  @default(now())           @map("created_at")
+  updatedAt       DateTime  @updatedAt                @map("updated_at")
+  professionalId  Int       @map("professional_id")
+
+  Professional  Professional  @relation(fields: [professionalId], references: [id])
+  @@index([professionalId], name: "professional")
+
+  PatientsSession PatientsSession[]
+
+  @@map("sessions")
+}
+
+model PatientsSession {
+  id          Int   @id @default(autoincrement())
+  sessionId   Int   @map("session_id")
+  patientId   Int   @map("patient_id")
+
+  Session  Session  @relation(fields: [sessionId], references: [id])
+  @@index([sessionId], name: "session")
+
+  Patient       Patient       @relation(fields: [patientId], references: [id])
+  @@index([patientId], name: "patient")
+
+  @@map("patients_session")
+}

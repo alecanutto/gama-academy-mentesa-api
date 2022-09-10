@@ -1,0 +1,618 @@
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - Auth
+      summary: Cadastrar usuário
+      operationId: auth/signup
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/SignUp'
+                - example:
+                    name: Juca Bala
+                    email: juca@gmail.com
+                    password: '12345678'
+            example:
+              name: Juca Bala
+              email: juca@gmail.com
+              password: '12345678'
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Realizar login
+      operationId: auth/login
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/User'
+                - example:
+                    email: juca@gmail.com
+                    password: '12345678'
+            example:
+              email: juca@gmail.com
+              password: '12345678'
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Realizar logout
+      operationId: auth/logout
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/User'
+                - example:
+                    email: juca@gmail.com
+                    password: '12345678'
+            example:
+              email: juca@gmail.com
+              password: '12345678'
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /users/{userId}:
+    put:
+      tags:
+        - Users
+      summary: Alterar senha do usuário
+      operationId: users/update
+      parameters:
+        - name: userId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UserUpdate'
+                - example:
+                    password: teste123
+            example:
+              password: teste123
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /professionals:
+    get:
+      tags:
+        - Professionals
+      summary: Recuperar dados do profissional por id do usuário
+      operationId: professional/findAllByUserId
+      parameters:
+        - name: userId
+          in: query
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /professionals/{professionalId}:
+    put:
+      tags:
+        - Professionals
+      summary: Alterar dados do profissional
+      operationId: professionals/update
+      parameters:
+        - name: professionalId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ProfessionalUpdate'
+                - example:
+                    name: Juca Bala Oliveira da Silva
+                    crp: '12345684787'
+                    cellphone: '67981799939'
+                    approach: Terapia Cognitiva
+            example:
+              name: Juca Bala Oliveira da Silva
+              crp: '12345684787'
+              cellphone: '67981799939'
+              approach: Terapia Cognitiva
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /patients:
+    post:
+      tags:
+        - Patients
+      summary: Cadastrar paciente
+      operationId: patients/create
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Patient'
+                - example:
+                    name: Maria Aparecida
+                    cpf: '00000000091'
+                    email: maria.ap@gmail.com
+                    cellphone: '55981999939'
+                    gender: Feminino
+                    birthDate: 1990-08-10
+                    professionalId: 1
+            example:
+              name: Maria Aparecida
+              cpf: '00000000091'
+              email: maria.ap@gmail.com
+              cellphone: '55981999939'
+              gender: Feminino
+              birthDate: 1990-08-10
+              professionalId: 1
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    get:
+      tags:
+        - Patients
+      summary: Recuperar todos os pacientes por profissional
+      operationId: patients/findAllByProfessionalId
+      parameters:
+        - name: professionalId
+          in: query
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /patients/{patientId}:
+    put:
+      tags:
+        - Patients
+      summary: Alterar dados do paciente
+      operationId: patients/update
+      parameters:
+        - name: patientId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Patient'
+                - example:
+                    name: Maria Aparecida Rucasque
+                    cpf: '00000000091'
+                    email: maria.ap@gmail.com
+                    cellphone: '55981999939'
+                    gender: Feminino
+                    birthDate: 1990-08-10
+                    professionalId: 1
+            example:
+              name: Maria Aparecida Rucasque
+              cpf: '00000000091'
+              email: maria.ap@gmail.com
+              cellphone: '55981999939'
+              gender: Feminino
+              birthDate: 1990-08-10
+              professionalId: 1
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    get:
+      tags:
+        - Patients
+      summary: Recuperar dados do paciente
+      operationId: patients/delete
+      parameters:
+        - name: patientId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    delete:
+      tags:
+        - Patients
+      summary: Excluir paciente
+      operationId: patients/delete
+      parameters:
+        - name: patientId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /sessions:
+    post:
+      tags:
+        - Sessions
+      summary: Registrar sessão
+      operationId: sessions/create
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Session'
+                - example:
+                    subject: Terapia
+                    type: Individual
+                    status: Agendado
+                    scheduleType: Online
+                    duration: 30
+                    sessionDate: 2022-09-09
+                    professionalId: 1
+                    patients:
+                      - 1
+            example:
+              subject: Terapia
+              type: Individual
+              status: Agendado
+              scheduleType: Online
+              duration: 30
+              sessionDate: 2022-09-09
+              professionalId: 1
+              patients:
+                - 1
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /sessions/{professionalId}:
+    get:
+      tags:
+        - Sessions
+      summary: Recuperar todas as sessões por profissional
+      operationId: sessions/findAll
+      parameters:
+        - name: professionalId
+          in: query
+          description: ''
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /sessions/{sessionId}:
+    put:
+      tags:
+        - Sessions
+      summary: Alterar dados da sessão
+      operationId: sessions/update
+      parameters:
+        - name: sessionId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Session'
+                - example:
+                    subject: Terapia
+                    type: Individual
+                    status: Realizado
+                    scheduleType: Online
+                    duration: 30
+                    sessionDate: 2022-09-09
+                    professionalId: 1
+                    patients:
+                      - 1
+            example:
+              subject: Terapia
+              type: Individual
+              status: Realizado
+              scheduleType: Online
+              duration: 30
+              sessionDate: 2022-09-09
+              professionalId: 1
+              patients:
+                - 1
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    get:
+      tags:
+        - Sessions
+      summary: Recuperar dados da sessão
+      operationId: sessions/findOne
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    delete:
+      tags:
+        - Sessions
+      summary: Excluir sessão
+      operationId: sessions/delete
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+components:
+  schemas:
+    SignUp:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - name
+        - email
+        - password
+      example:
+        name: Juca Bala
+        email: juca@gmail.com
+        password: '12345678'
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+      example:
+        email: juca@gmail.com
+        password: '12345678'
+    UserUpdate:
+      type: object
+      properties:
+        password:
+          type: string
+      required:
+        - password
+      example:
+        password: teste123
+    ProfessionalUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        crp:
+          type: string
+        cellphone:
+          type: string
+        approach:
+          type: string
+      required:
+        - name
+        - crp
+        - cellphone
+        - approach
+      example:
+        name: Juca Bala Oliveira da Silva
+        crp: '12345684787'
+        cellphone: '67981799939'
+        approach: Terapia Cognitiva
+    Patient:
+      type: object
+      properties:
+        name:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        cellphone:
+          type: string
+        gender:
+          type: string
+        birthDate:
+          type: date
+        professionalId:
+          type: integer
+          format: int32
+      required:
+        - name
+        - cpf
+        - email
+        - cellphone
+        - gender
+        - birthDate
+        - professionalId
+      example:
+        name: Maria Aparecida Rucasque
+        cpf: '00000000091'
+        email: maria.ap@gmail.com
+        cellphone: '55981999939'
+        gender: Feminino
+        birthDate: 1990-08-10
+        professionalId: 1
+    Session:
+      type: object
+      properties:
+        subject:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+        scheduleType:
+          type: string
+        duration:
+          type: integer
+          format: int32
+        sessionDate:
+          type: string
+        professionalId:
+          type: integer
+          format: int32
+        patients:
+          type: array
+          items:
+            type: integer
+            format: int32
+          description: ''
+      required:
+        - subject
+        - type
+        - status
+        - scheduleType
+        - duration
+        - sessionDate
+        - professionalId
+        - patients
+      example:
+        subject: Terapia
+        type: Individual
+        status: Realizado
+        scheduleType: Online
+        duration: 30
+        sessionDate: 2022-09-09
+        professionalId: 1
+        patients:
+          - 1
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+  - name: Auth
+    description: 'Operações relacionadas a autenticação'
+  - name: Users
+    description: 'Operações relacionadas a usuários'
+  - name: Professionals
+    description: 'Operações relacionadas a profissionais'
+  - name: Patients
+    description: 'Operações relacionadas a pacientes'
+  - name: Sessions
+    description: 'Operações relacionadas a sessões'
